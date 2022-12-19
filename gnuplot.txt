@@ -1,0 +1,12 @@
+cd /Library; sudo ln -sf ~/Library/Developer .
+https://brew.sh # install
+brew install gd lua cairo pango readline libcerf
+./configure --prefix=$HOME/Applications/gnuplot
+make
+make install
+for f in *; do otool -L $f|grep /usr/local/|awk '{print $1}'|while read i; do j=@executable_path/${i##*/}; echo $f $i $j; cp -n $i .; install_name_tool -change $i $j $f; done; done; codesign -f -s - *
+sudo rm -rf /usr/local/*
+sudo rm /Library/Developer
+
+sudo apt install libgd-dev liblua5.4-dev libcerf-dev
+for a in `ldd gnuplot|grep "/lib/"|awk '{print $1}'|sort|uniq`;do [ ${b[(ie)$a]} -gt ${#b} ] && cp /lib/*/$a .;done

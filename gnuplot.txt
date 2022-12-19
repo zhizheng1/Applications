@@ -1,3 +1,6 @@
+[gnuplot]
+http://www.gnuplot.info
+
 cd /Library; sudo ln -sf ~/Library/Developer .
 https://brew.sh # install
 brew install gd lua cairo pango readline libcerf
@@ -10,3 +13,6 @@ sudo rm /Library/Developer
 
 sudo apt install libgd-dev liblua5.4-dev libcerf-dev
 for a in `ldd gnuplot|grep "/lib/"|awk '{print $1}'|sort|uniq`;do [ ${b[(ie)$a]} -gt ${#b} ] && cp /lib/*/$a .;done
+
+~/.local/share/fonts/Arial*
+export PANGOCAIRO_BACKEND=fc

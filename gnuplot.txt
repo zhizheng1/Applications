@@ -46,6 +46,3 @@ cp -R /usr/local .; mv local gnuplot; sudo rm -rf /usr/local/*
 cd gnuplot; mkdir lib
 b=(`cat ~/Library/Logs/base.txt`)
 for a in `ldd bin/gnuplot|grep "/lib/"|awk '{print $1}'|sort|uniq`;do [ ${b[(ie)$a]} -gt ${#b} ] && cp /lib/*/$a lib;done
-
-~/.local/share/fonts/Arial*
-export PANGOCAIRO_BACKEND=fc

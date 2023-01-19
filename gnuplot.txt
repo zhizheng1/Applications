@@ -2,7 +2,7 @@
 http://www.gnuplot.info
 
 cd ~/Desktop; mkdir include lib
-for l in gd lua cairo pango readline libcerf; do curl -L "https://formulae.brew.sh/api/bottle/$l.json"|sed -e 's|"ventura":{"url":"|\n|g' -e 's|"},"monterey":|\n|g'|grep ^http >>l.txt; done; cat l.txt|sort -u >a.txt; rm l.txt
+for l in gd lua cairo pango readline libcerf pkg-config; do curl -L "https://formulae.brew.sh/api/bottle/$l.json"|sed -e 's|"ventura":{"url":"|\n|g' -e 's|"},"monterey":|\n|g'|grep ^http >>l.txt; done; cat l.txt|sort -u >a.txt; rm l.txt
 cat a.txt|while read i; do curl -H 'Authorization: Bearer QQ==' -L "$i" >a; tar zxvf a; done
 mv */*/include/* include; mv */*/include/X11/* include/X11; mv */*/include/X11/extensions/* include/X11/extensions; for a in cairo pango-1.0 glib-2.0 lua harfbuzz; do mv include/$a/* include; done; mv glib/*/lib/*/include/* include; mv */*/lib/*.dylib lib
 export PATH=~/Library/Developer/CommandLineTools/usr/bin:$PATH
@@ -26,6 +26,7 @@ p(){ l=(); for f in $~1; do [ ! -L $f ] && otool -L $f|sed 1,`otool -D $f|awk 'E
 p "~/Desktop/lua/*/bin/lua" @@ ~/Desktop/lib
 p "~/Desktop/lib/*" @@ @loader_path
 ./configure
+[sed -i.0 -e '272s|.*|putenv("PANGOCAIRO_BACKEND=fc");|' src/plot.c]
 make
 p docs/doc2gih @@ ~/Desktop/lib
 p src/bf_test @@ ~/Desktop/lib

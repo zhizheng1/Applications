@@ -2,8 +2,8 @@
 http://www.gnuplot.info
 
 cd ~/Desktop; mkdir include lib
-for l in gd lua cairo pango readline libcerf pkg-config; do curl -L "https://formulae.brew.sh/api/bottle/$l.json"|sed -e 's|"ventura":{"url":"|\n|g' -e 's|"},"monterey":|\n|g'|grep ^http >>l.txt; done; cat l.txt|sort -u >a.txt; rm l.txt
-cat a.txt|while read i; do curl -H 'Authorization: Bearer QQ==' -L "$i" >a; tar zxvf a; done
+l=(gd lua cairo pango readline libcerf pkg-config); while [ ! ${#l} = ${#l0} ]; do l0=($l); for a in $l; do curl -L "https://formulae.brew.sh/api/formula/$a.json"|sed -e 's|variations.*||g' -e 's|.*"dependencies":\[||g' -e 's|].*||g' -e 's|"||g' -e 's|,|\n|g'|while read i; do l+=($i); done; done; l=(${(u)l}); done
+for a in $l; do curl -L "https://formulae.brew.sh/api/formula/$a.json"|sed -e 's|"ventura":{"cellar":"[^"]*","url":"|\n|g'|sed -e 's|","sha25.*|\n|g'|grep ^htt|while read i; do curl -H 'Authorization: Bearer QQ==' -L "$i" >a; tar zxvf a; done; done
 mv */*/include/* include; mv */*/include/X11/* include/X11; mv */*/include/X11/extensions/* include/X11/extensions; for a in cairo pango-1.0 glib-2.0 lua harfbuzz; do mv include/$a/* include; done; mv glib/*/lib/*/include/* include; mv */*/lib/*.dylib lib
 export PATH=~/Library/Developer/CommandLineTools/usr/bin:$PATH
 export CFLAGS="-isysroot $HOME/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I$HOME/Desktop/include"
